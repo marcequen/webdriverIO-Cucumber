@@ -67,7 +67,7 @@ const Page = require("./page");
 
 class SecurePage extends Page {
   /**
-   * Se define selector usando un metodo get
+   * Se define selector usando getters
    */
   get flashAlert() {
     return $("#flash");
@@ -91,17 +91,17 @@ module.exports = new SecurePage();
 
 class LoginPage extends Page {
   /**
-   * Se define selector usando metodos get para
+   * Se define selector usando getters
    */
-  // ingresar usuario almacenado en Features
+
   get inputUsername() {
     return $("#username");
   }
-  // ingresar contraseña almacenada en Features
+
   get inputPassword() {
     return $("#password");
   }
-  // Ejecuta click en boton
+
   get btnSubmit() {
     return $('button[type="submit"]');
   }
@@ -136,9 +136,9 @@ module.exports = new LoginPage();
 //
 
 /**
- * archivo de caracteristicas en formato Gherkin para indicar las opciones a seguir
+ * Archivo de caracteristicas en formato Gherkin para indicar las opciones a seguir
  * en los pasos de la automatizacion.
- * este archivo es de donde Wdio/Cucumber toma las variables de cada psao.
+ * Este archivo es de donde Wdio/Cucumber toma las variables de cada psao.
  * Cada escenario puede tener diferentes tipos de datos
  */
 //
@@ -178,27 +178,28 @@ module.exports = new LoginPage();
 //
 // Ejecuta la automatizacion.
 //
-// Usa los nombreas de variables del mismo metodo Gherkin e mporta las paginas necesarias
+// Importa los metodos (de features, estilo Gherkin) y los busca y ejecuta
 const { Given, When, Then } = require("@cucumber/cucumber");
-
 const LoginPage = require("../pageobjects/login.page");
 const SecurePage = require("../pageobjects/secure.page");
-
 const pages = {
   login: LoginPage,
 };
 
-// Ejecuta lel paso "Dado que..." busca el escenario en Features
+// Ejecuta lel paso "Dado que...lo que esta encerrado entre barras /.../)"
+// y busca el escenario en Features
 Given(/^I am on the (\w+) page$/, (page) => {
   pages[page].open();
 });
 
-// Ejecuta lel paso "Cuando..." ingresa las variables de Features
+// Ejecuta lel paso "Cuando... (lo que esta encerrado entre barras /.../)"
+// e ingresa las variables de Features
 When(/^I login with (\w+) and (.+)$/, (username, password) => {
   LoginPage.login(username, password);
 });
 
-// Ejecuta lel paso "Entonces..." comparando lo encontrado versus lo esperado
+// Ejecuta lel paso "Entonces...lo que esta encerrado entre barras /.../)"
+// comparando lo encontrado versus lo esperado
 Then(/^I should see a flash message saying (.*)$/, (message) => {
   expect(SecurePage.flashAlert).toBeExisting();
   expect(SecurePage.flashAlert).toHaveTextContaining(message);
