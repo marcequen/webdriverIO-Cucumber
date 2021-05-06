@@ -186,19 +186,19 @@ const pages = {
   login: LoginPage,
 };
 
-// Ejecuta lel paso "Dado que...lo que esta encerrado entre barras /.../)"
+// Ejecuta el paso "Dado que...(lo que esta encerrado entre barras /.../)"
 // y busca el escenario en Features
 Given(/^I am on the (\w+) page$/, (page) => {
   pages[page].open();
 });
 
-// Ejecuta lel paso "Cuando... (lo que esta encerrado entre barras /.../)"
+// Ejecuta el paso "Cuando... (lo que esta encerrado entre barras /.../)"
 // e ingresa las variables de Features
 When(/^I login with (\w+) and (.+)$/, (username, password) => {
   LoginPage.login(username, password);
 });
 
-// Ejecuta lel paso "Entonces...lo que esta encerrado entre barras /.../)"
+// Ejecuta el paso "Entonces...(lo que esta encerrado entre barras /.../)"
 // comparando lo encontrado versus lo esperado
 Then(/^I should see a flash message saying (.*)$/, (message) => {
   expect(SecurePage.flashAlert).toBeExisting();
